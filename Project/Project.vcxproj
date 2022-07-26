@@ -160,6 +160,7 @@
     <ClCompile Include="HighScoreState.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelSelectState.cpp" />
     <ClCompile Include="LoseState.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Money.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="HighScoreState.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelSelectState.h" />
     <ClInclude Include="LoseState.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Money.h" />

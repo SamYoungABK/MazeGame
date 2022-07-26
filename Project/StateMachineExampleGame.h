@@ -16,6 +16,7 @@ public:
 		HighScore,
 		Lose,
 		Win,
+		LevelSelect,
 	};
 
 private:

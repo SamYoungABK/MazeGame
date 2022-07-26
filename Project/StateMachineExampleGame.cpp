@@ -2,6 +2,7 @@
 #include "GameplayState.h"
 #include "MainMenuState.h"
 #include "SettingsState.h"
+#include "LevelSelectState.h"
 #include "HighScoreState.h"
 #include "LoseState.h"
 #include "WinState.h"
@@ -74,6 +75,9 @@ void StateMachineExampleGame::LoadScene(SceneName scene)
 		break;
 	case SceneName::HighScore:
 		m_pNextState = new HighScoreState(this);
+		break;
+	case SceneName::LevelSelect:
+		m_pNextState = new LevelSelectState(this);
 		break;
 	case SceneName::Win:
 		m_pNextState = new WinState(this);

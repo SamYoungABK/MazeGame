@@ -1,4 +1,4 @@
-#include "MainMenuState.h"
+#include "LevelSelectState.h"
 
 #include <iostream>
 #include <conio.h>
@@ -15,12 +15,16 @@ constexpr char kSettings = '3';
 constexpr char kLevelSelect = '4';
 constexpr char kQuit = '5';
 
-MainMenuState::MainMenuState(StateMachineExampleGame* pOwner)
+LevelSelectState::LevelSelectState(StateMachineExampleGame* pOwner)
 	: m_pOwner(pOwner)
 {
 }
 
-bool MainMenuState::Update(bool processInput)
+void LevelSelectState::Enter() {
+	/*GetLevelList();*/
+}
+
+bool LevelSelectState::Update(bool processInput)
 {
 	bool shouldQuit = false;
 	if (processInput)
@@ -50,14 +54,9 @@ bool MainMenuState::Update(bool processInput)
 	return shouldQuit;
 }
 
-void MainMenuState::Draw()
+void LevelSelectState::Draw()
 {
 	system("cls");
 	cout << endl << endl << endl;
-	cout << "          - - - MAIN MENU - - -" << endl << endl;
-	cout << "             " << kPlay << ". Play " << endl;
-	cout << "             " << kHighScore << ". High Score " << endl;
-	cout << "             " << kSettings << ". Settings " << endl;
-	cout << "             " << kLevelSelect << ". Level Select " << endl;
-	cout << "             " << kQuit << ". Quit " << endl;
+	cout << "          - - - LEVEL SELECT - - -" << endl << endl;
 }
