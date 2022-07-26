@@ -17,6 +17,8 @@ class GameplayState : public GameState
 	Level* m_pLevel;
 
 	bool m_beatLevel;
+	bool m_loadCustomLevel = false;
+
 	int m_skipFrameCount;
 	static constexpr int kFramesToSkip = 2;
 

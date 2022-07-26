@@ -4,6 +4,8 @@
 #include <conio.h>
 #include <windows.h>
 #include <assert.h>
+#include <vector>
+#include <string>
 
 #include "Enemy.h"
 #include "Key.h"
@@ -13,6 +15,7 @@
 #include "AudioManager.h"
 #include "Utility.h"
 #include "StateMachineExampleGame.h"
+#include "CustomLevelManager.h"
 
 using namespace std;
 
@@ -30,9 +33,15 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 	, m_currentLevel(0)
 	, m_pLevel(nullptr)
 {
-	m_LevelNames.push_back("Level1.txt");
-	m_LevelNames.push_back("Level2.txt");
-	m_LevelNames.push_back("Level3.txt");
+	if (CustomLevelManager::GetInstance()->m_loadCustomLevel == true)
+	{
+		m_LevelNames.push_back("CustomLevels/" + *(CustomLevelManager::GetInstance()->m_selectedLevel));
+	}
+	else {
+		m_LevelNames.push_back("Level1.txt");
+		m_LevelNames.push_back("Level2.txt");
+		m_LevelNames.push_back("Level3.txt");
+	}
 }
 
 GameplayState::~GameplayState()

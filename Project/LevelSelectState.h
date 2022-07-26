@@ -9,10 +9,6 @@ class StateMachineExampleGame;
 class LevelSelectState : public GameState
 {
 	StateMachineExampleGame* m_pOwner;
-private:
-	std::vector<std::string> *m_levelList = new std::vector<std::string>();
-	std::vector<std::string>::iterator m_selectedLevel;
-	
 public:
 	
 	LevelSelectState(StateMachineExampleGame* pOwner);
@@ -23,10 +19,8 @@ public:
 	virtual void Draw() override;
 
 private:
-	void GetLevelList();
-	char IsLevelSelected(std::string levelName);
-	void MoveCursorUp();
-	void MoveCursorDown();
+
+
 
 };
 
