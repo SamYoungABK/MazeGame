@@ -9,6 +9,7 @@
 #include "Door.h"
 #include "Goal.h"
 #include "Money.h"
+#include "HealthPickup.h"
 
 using namespace std;
 
@@ -126,6 +127,11 @@ bool Level::ConvertLevel(int* playerX, int* playerY)
 			case '|':
 			case '-':
 				m_pLevelData[index] = WAL;
+				break;
+			// health pickup
+			case 'a':
+				m_pLevelData[index] = ' ';
+				m_pActors.push_back(new HealthPickup(x, y, 1 + rand() % 5));
 				break;
 			case 'r':
 				m_pLevelData[index] = ' ';

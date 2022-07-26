@@ -25,6 +25,7 @@ class GameplayState : public GameState
 	int m_currentLevel;
 
 	std::vector<std::string> m_LevelNames;
+	std::string m_broadcastMessage = "";
 
 public:
 	GameplayState(StateMachineExampleGame* pOwner);

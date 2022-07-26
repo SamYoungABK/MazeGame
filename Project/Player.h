@@ -18,13 +18,14 @@ public:
 	void AddMoney(int money) { m_money += money; }
 	int GetMoney() { return m_money; }
 
-	int GetLives() { return m_lives; }
-	void DecrementLives() { m_lives--; }
+	int GetHealth() { return m_health; }
+	void TakeDamage(int amount) { m_health -= amount; }
+	void GainHealth(int amount) { m_health += amount; }
 
 	virtual ActorType GetType() override { return ActorType::Player; }
 	virtual void Draw() override;
 private:
 	Key* m_pCurrentKey;
 	int m_money;
-	int m_lives;
+	int m_health;
 };

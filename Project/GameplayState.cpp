@@ -16,6 +16,7 @@
 #include "Utility.h"
 #include "StateMachineExampleGame.h"
 #include "CustomLevelManager.h"
+#include "HealthPickup.h"
 
 using namespace std;
 
@@ -163,13 +164,12 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 			Enemy* collidedEnemy = dynamic_cast<Enemy*>(collidedActor);
 			assert(collidedEnemy);
 			AudioManager::GetInstance()->PlayLoseLivesSound();
-			collidedEnemy->Remove();
 			m_player.SetPosition(newPlayerX, newPlayerY);
 
-			m_player.DecrementLives();
-			if (m_player.GetLives() < 0)
+			m_player.TakeDamage(2);
+			m_broadcastMessage = "Took 2 damage!!";
+			if (m_player.GetHealth() < 0)
 			{
-				//TODO: Go to game over screen
 				AudioManager::GetInstance()->PlayLoseSound();
 				m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Lose);
 			}
@@ -196,6 +196,16 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 				m_player.SetPosition(newPlayerX, newPlayerY);
 				AudioManager::GetInstance()->PlayKeyPickupSound();
 			}
+			break;
+		}
+		case ActorType::Health:
+		{
+			HealthPickup* collidedHealth = dynamic_cast<HealthPickup*>(collidedActor);
+			assert(collidedHealth);
+			m_broadcastMessage = "Gained 2 health!";
+			m_player.GainHealth(2);
+			collidedHealth->Remove();
+			m_player.SetPosition(newPlayerX, newPlayerY);
 			break;
 		}
 		case ActorType::Door:
@@ -286,7 +296,7 @@ void GameplayState::DrawHUD(const HANDLE& console)
 	cout << " wasd-move " << Level::WAL << " z-drop key " << Level::WAL;
 
 	cout << " $:" << m_player.GetMoney() << " " << Level::WAL;
-	cout << " lives:" << m_player.GetLives() << " " << Level::WAL;
+	cout << " hp:" << m_player.GetHealth() << " " << Level::WAL;
 	cout << " key:";
 	if (m_player.HasKey())
 	{
@@ -302,11 +312,11 @@ void GameplayState::DrawHUD(const HANDLE& console)
 	GetConsoleScreenBufferInfo(console, &csbi);
 
 	COORD pos;
-	pos.X = m_pLevel->GetWidth() - 1;
+	pos.X = m_pLevel->GetWidth()-1;
 	pos.Y = csbi.dwCursorPosition.Y;
 	SetConsoleCursorPosition(console, pos);
 
-	cout << Level::WAL;
+	cout << Level::WAL << ' ' << m_broadcastMessage;
 	cout << endl;
 
 	// Bottom Border

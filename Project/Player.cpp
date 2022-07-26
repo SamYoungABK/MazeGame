@@ -6,13 +6,13 @@
 
 using namespace std;
 
-constexpr int kStartingNumberOfLives = 3;
+constexpr int kStartingNumberOfHealth = 10;
 
 Player::Player()
 	: PlacableActor(0, 0)
 	, m_pCurrentKey(nullptr)
 	, m_money(0)
-	, m_lives(kStartingNumberOfLives)
+	, m_health(kStartingNumberOfHealth)
 {
 
 }
