@@ -3,7 +3,7 @@
 #include <vector>
 
 enum PlayerStats : int {
-	Money = 0,
+	MoneyTotal = 0,
 	Health = 1,
 	Strength = 2,
 	Dexterity = 3,

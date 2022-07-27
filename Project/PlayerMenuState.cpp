@@ -59,10 +59,11 @@ void PlayerMenuState::Draw()
 	system("cls");
 	cout << endl << endl << endl;
 	cout << "          - - - PLAYER MENU - - -" << endl << endl;
-	cout << "        Controls:" << endl;
-	cout << "        W/S   - Move Cursor Up/Down" << endl;
-	cout << "        ENTER - Select" << endl << endl;
-	cout << "        X     - Return to Game" << endl << endl;
+	cout << "      Controls:" << endl;
+	cout << "          W/S - Move Cursor Up/Down" << endl;
+	cout << "        ENTER - Select" << endl;
+	cout << "            X - Return to Game" << endl;
+	cout << "            (WIP! Options don't work yet)" << endl << endl;
 	PrintMoneyAndHealth();
 	m_selectionMenu->PrintOptions();
 
@@ -71,7 +72,7 @@ void PlayerMenuState::Draw()
 void PlayerMenuState::PrintMoneyAndHealth()
 {
 	cout << "             $: " <<
-		GetManagerValue(PlayerStats::Money) <<
+		GetManagerValue(PlayerStats::MoneyTotal) <<
 		"    HP: " << GetManagerValue(PlayerStats::Health) << '/'
 		<< GetManagerValue(PlayerStats::Vitality) << endl << endl;
 }
