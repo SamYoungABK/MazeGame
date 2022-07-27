@@ -62,6 +62,7 @@ void PlayerMenuState::Draw()
 	cout << "        Controls:" << endl;
 	cout << "        W/S   - Move Cursor Up/Down" << endl;
 	cout << "        ENTER - Select" << endl << endl;
+	cout << "        X     - Return to Game" << endl << endl;
 	PrintMoneyAndHealth();
 	m_selectionMenu->PrintOptions();
 
