@@ -1,5 +1,6 @@
 #pragma once
 #include "PlacableActor.h"
+#include <vector>
 
 class Key;
 
@@ -24,8 +25,10 @@ public:
 
 	virtual ActorType GetType() override { return ActorType::Player; }
 	virtual void Draw() override;
+
 private:
 	Key* m_pCurrentKey;
 	int m_money;
 	int m_health;
+	std::vector<int> m_playerStats;
 };

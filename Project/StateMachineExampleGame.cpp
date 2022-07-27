@@ -7,11 +7,13 @@
 #include "LoseState.h"
 #include "WinState.h"
 #include "Game.h"
+#include "PlayerMenuState.h"
 
 StateMachineExampleGame::StateMachineExampleGame(Game* pOwner)
 	: m_pOwner(pOwner)
 	, m_pCurrentState(nullptr)
 	, m_pNextState(nullptr)
+	, m_pSavedState(nullptr)
 {
 }
 
@@ -47,14 +49,36 @@ void StateMachineExampleGame::DrawCurrentState()
 
 void StateMachineExampleGame::ChangeState(GameState* pNewState)
 {
-	if (m_pCurrentState != nullptr)
+	if (m_pCurrentState != nullptr && m_pCurrentState != m_pSavedState)
 	{
 		m_pCurrentState->Exit();
 	}
 
-	delete m_pCurrentState;
+	// don't deallocate the saved state!
+	if(m_pCurrentState != m_pSavedState) delete m_pCurrentState;
+
 	m_pCurrentState = pNewState;
 	pNewState->Enter();
+}
+
+void StateMachineExampleGame::SaveCurrentState()
+{
+	if(m_pCurrentState != m_pSavedState) delete m_pSavedState;
+	m_pSavedState = m_pCurrentState;
+}
+
+void StateMachineExampleGame::ClearSavedState()
+{
+	delete m_pSavedState;
+	m_pSavedState = nullptr;
+}
+
+void StateMachineExampleGame::ResumeSavedState()
+{
+	// there is no saved state to resume from.
+	if (m_pSavedState == nullptr) return;
+	delete m_pNextState;
+	m_pNextState = m_pSavedState;
 }
 
 void StateMachineExampleGame::LoadScene(SceneName scene)
@@ -84,6 +108,14 @@ void StateMachineExampleGame::LoadScene(SceneName scene)
 		break;
 	case SceneName::Lose:
 		m_pNextState = new LoseState(this);
+		break;
+	case SceneName::PlayerMenu:
+		SaveCurrentState();
+		m_pNextState = new PlayerMenuState(this);
+		break;
+	case SceneName::ResumeSaved:
+		m_resumingSavedState = true;
+		ResumeSavedState();
 		break;
 	}
 

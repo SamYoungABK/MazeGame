@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iterator>
+#include "SelectionMenu.h"
 
 class CustomLevelManager
 {
@@ -10,6 +11,7 @@ class CustomLevelManager
 public:
 	std::vector<std::string>* m_levelList = new std::vector<std::string>();
 	std::vector<std::string>::iterator m_selectedLevel;
+	
 
 	bool m_loadCustomLevel = false;
 

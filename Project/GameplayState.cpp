@@ -67,6 +67,12 @@ bool GameplayState::Load()
 
 void GameplayState::Enter()
 {
+	// check if we're resuming from a previously existing state
+	if (m_pOwner->m_resumingSavedState)
+	{
+		m_pOwner->m_resumingSavedState = false;
+		return;
+	}
 	Load();
 }
 
@@ -104,6 +110,10 @@ bool GameplayState::Update(bool processInput)
 			(char)input == 'S' || (char)input == 's')
 		{
 			newPlayerY++;
+		}
+		else if ((char)input == 'X' || (char)input == 'x')
+		{
+			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
 		}
 		else if (input == kEscapeKey)
 		{
