@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <iterator>
-#include "SelectionMenu.h"
 #include "Player.h"
 #include "Item.h"
 
@@ -16,13 +15,9 @@ class PlayerMenuState : public GameState
 	std::vector<Item>::iterator m_selectedItem;
 	std::string m_message = "";
 
-	SelectionMenu *m_selectionMenu = new SelectionMenu({"Items"});
-
 public:
 	PlayerMenuState(StateMachineExampleGame* pOwner);
-	~PlayerMenuState() {
-		delete m_selectionMenu;
-	};
+	~PlayerMenuState() {};
 
 	virtual void Enter() override;
 	virtual bool Update(bool processInput = true) override;

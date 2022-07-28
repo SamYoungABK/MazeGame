@@ -7,7 +7,6 @@
 #include <windows.h>
 
 #include "CustomLevelManager.h"
-#include "SelectionMenu.h"
 #include "StateMachineExampleGame.h"
 #include "Player.h"
 #include "Level.h"
@@ -56,7 +55,7 @@ bool PlayerMenuState::Update(bool processInput)
 		}
 		else if (input == kEnterKey)
 		{
-			if(m_selectedItem->GetType() == ItemType::Equipment) EquipItem();
+			if (m_selectedItem->GetType() == ItemType::Equipment) EquipItem();
 			else if (m_selectedItem->GetType() == ItemType::Consumable) UseConsumable();
 		}
 	}
@@ -76,7 +75,7 @@ void PlayerMenuState::Draw()
 	PrintMoneyAndHealth();
 	PrintStats(3, 12);
 	PrintEquipment(20, 12);
-	PrintItemList(60,3);
+	PrintItemList(60, 3);
 	PrintMessage(1, 18);
 }
 
@@ -96,8 +95,8 @@ void PlayerMenuState::PrintMoneyAndHealth()
 {
 	cout << "             $: " <<
 		m_pPlayer->m_money <<
-		"    HP: " << m_pPlayer->m_health << '/'
-		<< m_pPlayer->m_vitality << endl << endl;
+		"    HP: " << m_pPlayer->GetHealth() << '/'
+		<< m_pPlayer->GetTotalVitality() << endl << endl;
 }
 
 void PlayerMenuState::PrintStats(int x, int y)
@@ -130,11 +129,11 @@ void PlayerMenuState::PrintItemList(int x, int y)
 	for (int i = -1; i <= 25; ++i) cout << Level::WAL;
 	MoveConsoleCursor(x, ++y);
 	cout << Level::WAL << "  Inventory";
-	MoveConsoleCursor(x+26, y);
+	MoveConsoleCursor(x + 26, y);
 	cout << Level::WAL;
 	MoveConsoleCursor(x, ++y);
 	for (int i = -1; i <= 25; ++i) cout << Level::WAL;
-	for (Item &item : m_pPlayer->m_inventory)
+	for (Item& item : m_pPlayer->m_inventory)
 	{
 		MoveConsoleCursor(x, ++y);
 		cout << Level::WAL << ShowSelectionChar(item) << item.GetName();
@@ -145,7 +144,7 @@ void PlayerMenuState::PrintItemList(int x, int y)
 	for (int i = -1; i <= 25; ++i) cout << Level::WAL;
 }
 
-std::string PlayerMenuState::ShowSelectionChar(Item &item)
+std::string PlayerMenuState::ShowSelectionChar(Item& item)
 {
 	if (m_selectedItem._Ptr == &item) return " * ";
 	return "   ";
@@ -153,7 +152,7 @@ std::string PlayerMenuState::ShowSelectionChar(Item &item)
 
 void PlayerMenuState::MoveCursorDown()
 {
-	if (m_selectedItem+1 < m_pPlayer->m_inventory.end()) m_selectedItem++;
+	if (m_selectedItem + 1 < m_pPlayer->m_inventory.end()) m_selectedItem++;
 }
 
 void PlayerMenuState::MoveCursorUp()
@@ -188,7 +187,8 @@ void PlayerMenuState::EquipItem()
 	}
 
 	Item tmp = Item(0);
-	switch(m_selectedItem->GetSlot()) {
+	switch (m_selectedItem->GetSlot())
+	{
 	case ItemSlot::Head:
 		tmp = m_pPlayer->m_headEquipped;
 		m_pPlayer->m_headEquipped = *m_selectedItem;
@@ -207,7 +207,7 @@ void PlayerMenuState::EquipItem()
 		break;
 	}
 
-	
+
 	m_pPlayer->m_inventory.erase(m_selectedItem);
 	m_pPlayer->m_inventory.push_back(tmp);
 	m_selectedItem = m_pPlayer->m_inventory.begin();
