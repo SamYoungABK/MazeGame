@@ -17,7 +17,7 @@ CustomLevelManager* CustomLevelManager::s_pInstance = nullptr;
 
 void CustomLevelManager::DrawLevelList()
 {
-	for (const auto& levelName : *m_levelList)
+	for (const auto& levelName : m_levelList)
 	{
 		cout << "           " << IsLevelSelected(levelName) << " " << levelName << endl;
 	}
@@ -26,17 +26,17 @@ void CustomLevelManager::DrawLevelList()
 void CustomLevelManager::BuildLevelList()
 {
 	string p = "../CustomLevels/";
-	vector<string> result;
-
-	delete m_levelList;
-	m_levelList = new std::vector<std::string>;
+	std::vector<std::string> result;
 
 	for (const auto& entry : directory_iterator(p))
 	{
 		string filename = entry.path().filename().string();
-		m_levelList->push_back(filename);
+		result.push_back(filename);
 	}
-	m_selectedLevel = m_levelList->begin();
+	
+	m_levelList = result;
+
+	m_selectedLevel = m_levelList.begin();
 }
 
 char CustomLevelManager::IsLevelSelected(string levelName)
@@ -49,14 +49,14 @@ char CustomLevelManager::IsLevelSelected(string levelName)
 
 void CustomLevelManager::MoveCursorUp()
 {
-	if (m_selectedLevel == m_levelList->begin()) return;
+	if (m_selectedLevel == m_levelList.begin()) return;
 
 	m_selectedLevel--;
 }
 
 void CustomLevelManager::MoveCursorDown()
 {
-	if (m_selectedLevel + 1 == m_levelList->end()) return;
+	if (m_selectedLevel + 1 == m_levelList.end()) return;
 
 	m_selectedLevel++;
 }

@@ -9,7 +9,6 @@
 #include "SelectionMenu.h"
 #include "StateMachineExampleGame.h"
 #include "Player.h"
-#include "PlayerDataManager.h"
 
 
 using namespace std;
@@ -22,6 +21,7 @@ constexpr int kEnterKey = 13;
 PlayerMenuState::PlayerMenuState(StateMachineExampleGame* pOwner)
 	: m_pOwner(pOwner)
 {
+	m_pPlayer = m_pOwner->m_savedPlayerPtr;
 }
 
 void PlayerMenuState::Enter() {
@@ -72,13 +72,8 @@ void PlayerMenuState::Draw()
 void PlayerMenuState::PrintMoneyAndHealth()
 {
 	cout << "             $: " <<
-		GetManagerValue(PlayerStats::MoneyTotal) <<
-		"    HP: " << GetManagerValue(PlayerStats::Health) << '/'
-		<< GetManagerValue(PlayerStats::Vitality) << endl << endl;
-}
-
-int PlayerMenuState::GetManagerValue(PlayerStats valName)
-{
-	return PlayerDataManager::GetInstance()->GetValue(valName);
+		m_pPlayer->m_money <<
+		"    HP: " << m_pPlayer->m_health << '/'
+		<< m_pPlayer->m_vitality << endl << endl;
 }
 

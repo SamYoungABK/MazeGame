@@ -91,10 +91,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -169,7 +171,6 @@
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="PlacableActor.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerDataManager.cpp" />
     <ClCompile Include="PlayerMenuState.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="SelectionMenu.cpp" />
@@ -198,7 +199,6 @@
     <ClInclude Include="Money.h" />
     <ClInclude Include="PlacableActor.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerDataManager.h" />
     <ClInclude Include="PlayerMenuState.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="SelectionMenu.h" />

@@ -9,7 +9,7 @@ class CustomLevelManager
 	static CustomLevelManager* s_pInstance;
 
 public:
-	std::vector<std::string>* m_levelList = new std::vector<std::string>();
+	std::vector<std::string> m_levelList;
 	std::vector<std::string>::iterator m_selectedLevel;
 	
 
@@ -23,10 +23,14 @@ public:
 		}
 		return s_pInstance;
 	}
+
 	static void DestroyInstance()
 	{
-		delete s_pInstance;
-		s_pInstance = nullptr;
+		if (s_pInstance != nullptr)
+		{
+			delete s_pInstance;
+			s_pInstance = nullptr;
+		}
 	}
 
 	void BuildLevelList();

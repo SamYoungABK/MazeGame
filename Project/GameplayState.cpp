@@ -47,6 +47,7 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 
 GameplayState::~GameplayState()
 {
+	
 	delete m_pLevel;
 	m_pLevel = nullptr;
 }
@@ -113,6 +114,7 @@ bool GameplayState::Update(bool processInput)
 		}
 		else if ((char)input == 'X' || (char)input == 'x')
 		{
+			m_pOwner->m_savedPlayerPtr = &m_player;
 			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
 		}
 		else if (input == kEscapeKey)

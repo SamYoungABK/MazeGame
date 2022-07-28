@@ -67,18 +67,14 @@ void StateMachineExampleGame::SaveCurrentState()
 	m_pSavedState = m_pCurrentState;
 }
 
-void StateMachineExampleGame::ClearSavedState()
-{
-	delete m_pSavedState;
-	m_pSavedState = nullptr;
-}
-
 void StateMachineExampleGame::ResumeSavedState()
 {
-	// there is no saved state to resume from.
+	// return if there is no saved state to resume from.
 	if (m_pSavedState == nullptr) return;
+
 	delete m_pNextState;
 	m_pNextState = m_pSavedState;
+	m_pSavedState = nullptr;
 }
 
 void StateMachineExampleGame::LoadScene(SceneName scene)

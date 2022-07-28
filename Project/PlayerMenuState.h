@@ -5,25 +5,25 @@
 #include <iterator>
 #include "SelectionMenu.h"
 #include "Player.h"
-#include "PlayerDataManager.h"
 
 class StateMachineExampleGame;
 
 class PlayerMenuState : public GameState
 {
 	StateMachineExampleGame* m_pOwner;
-	Player* m_pPlayer = nullptr;
+	Player* m_pPlayer;
 
 	SelectionMenu *m_selectionMenu = new SelectionMenu({ "Stats", "Items", "Equipment"});
 
 public:
 	PlayerMenuState(StateMachineExampleGame* pOwner);
-	~PlayerMenuState() = default;
+	~PlayerMenuState() {
+		delete m_selectionMenu;
+	};
 
 	virtual void Enter() override;
 	virtual bool Update(bool processInput = true) override;
 	virtual void Draw() override;
 	void PrintMoneyAndHealth();
-	int GetManagerValue(PlayerStats valName);
 };
 

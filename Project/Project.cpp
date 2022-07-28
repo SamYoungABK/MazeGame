@@ -1,6 +1,8 @@
 #include <iostream>
+#include "vld.h"
 #include "Game.h"
 #include "AudioManager.h"
+#include "CustomLevelManager.h"
 #include "StateMachineExampleGame.h"
 
 using namespace std;
@@ -18,6 +20,6 @@ int main()
 	myGame.Deinitialize();
 
 	AudioManager::DestroyInstance();
-
+	CustomLevelManager::DestroyInstance();
 	return 0;
 }

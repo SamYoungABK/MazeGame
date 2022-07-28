@@ -32,7 +32,7 @@ bool LevelSelectState::Update(bool processInput)
 		int input = _getch();
 		if (input == kEscapeKey)
 		{
-			shouldQuit = true;
+			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::MainMenu);
 		}
 		else if ((char)input == 'w' || (char)input == 'W')
 		{
