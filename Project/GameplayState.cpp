@@ -47,7 +47,7 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 
 GameplayState::~GameplayState()
 {
-	
+
 	delete m_pLevel;
 	m_pLevel = nullptr;
 }
@@ -61,7 +61,7 @@ bool GameplayState::Load()
 	}
 
 	m_pLevel = new Level();
-	
+
 	return m_pLevel->Load(m_LevelNames.at(m_currentLevel), m_player.GetXPositionPointer(), m_player.GetYPositionPointer());
 
 }
@@ -149,7 +149,7 @@ bool GameplayState::Update(bool processInput)
 				Utility::WriteHighScore(m_player.GetMoney());
 
 				AudioManager::GetInstance()->PlayWinSound();
-				
+
 				m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Win);
 			}
 			else
@@ -179,7 +179,7 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 			m_player.SetPosition(newPlayerX, newPlayerY);
 
 			m_player.TakeDamage(2);
-			m_broadcastMessage = "Took 2 damage!!";
+			BroadcastMessage("Took 2 damage!!");
 			if (m_player.GetHealth() < 0)
 			{
 				AudioManager::GetInstance()->PlayLoseSound();
@@ -214,7 +214,7 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 		{
 			HealthPickup* collidedHealth = dynamic_cast<HealthPickup*>(collidedActor);
 			assert(collidedHealth);
-			m_broadcastMessage = "Gained 2 health!";
+			BroadcastMessage("Gained 2 health!");
 			m_player.GainHealth(2);
 			collidedHealth->Remove();
 			m_player.SetPosition(newPlayerX, newPlayerY);
@@ -324,11 +324,11 @@ void GameplayState::DrawHUD(const HANDLE& console)
 	GetConsoleScreenBufferInfo(console, &csbi);
 
 	COORD pos;
-	pos.X = m_pLevel->GetWidth()-1;
+	pos.X = m_pLevel->GetWidth() - 1;
 	pos.Y = csbi.dwCursorPosition.Y;
+	
 	SetConsoleCursorPosition(console, pos);
-
-	cout << Level::WAL << ' ' << m_broadcastMessage;
+	cout << Level::WAL;
 	cout << endl;
 
 	// Bottom Border
@@ -337,4 +337,26 @@ void GameplayState::DrawHUD(const HANDLE& console)
 		cout << Level::WAL;
 	}
 	cout << endl;
+	DrawHUDBroadcasts(console, csbi);
+}
+
+void GameplayState::DrawHUDBroadcasts(const HANDLE& console, CONSOLE_SCREEN_BUFFER_INFO csbi)
+{
+	COORD pos;
+	pos.X = m_pLevel->GetWidth();
+	pos.Y = m_pLevel->GetHeight() - m_broadcastMessages.size();
+	SetConsoleCursorPosition(console, pos);
+
+	for (std::string msg : m_broadcastMessages)
+	{
+		cout << ' ' << msg;
+		pos.Y++;
+		SetConsoleCursorPosition(console, pos);
+	}
+	cout << endl;
+}
+
+void GameplayState::BroadcastMessage(std::string message)
+{
+	m_broadcastMessages.push_back(message);
 }

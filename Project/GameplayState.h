@@ -25,7 +25,7 @@ class GameplayState : public GameState
 	int m_currentLevel;
 
 	std::vector<std::string> m_LevelNames;
-	std::string m_broadcastMessage = "";
+	std::vector<std::string> m_broadcastMessages;
 
 public:
 	GameplayState(StateMachineExampleGame* pOwner);
@@ -39,4 +39,6 @@ private:
 	void HandleCollision(int newPlayerX, int newPlayerY);
 	bool Load();
 	void DrawHUD(const HANDLE& console);
+	void DrawHUDBroadcasts(const HANDLE& console, CONSOLE_SCREEN_BUFFER_INFO csbi);
+	void BroadcastMessage(std::string message);
 };
