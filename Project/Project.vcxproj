@@ -191,6 +191,7 @@
     <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="HighScoreState.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemData.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelSelectState.h" />

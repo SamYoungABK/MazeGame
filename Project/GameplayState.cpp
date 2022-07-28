@@ -305,19 +305,11 @@ void GameplayState::DrawHUD(const HANDLE& console)
 	// Left Side border
 	cout << Level::WAL;
 
-	cout << " wasd-move " << Level::WAL << " z-drop key " << Level::WAL;
+	cout << " wasd-move " << Level::WAL
+		<< " x-open menu " << Level::WAL;
 
 	cout << " $:" << m_player.GetMoney() << " " << Level::WAL;
-	cout << " hp:" << m_player.GetHealth() << " " << Level::WAL;
-	cout << " key:";
-	if (m_player.HasKey())
-	{
-		m_player.GetKey()->Draw();
-	}
-	else
-	{
-		cout << " ";
-	}
+	cout << " hp:" << m_player.GetHealth() << "/" << m_player.m_vitality;
 
 	// RightSide border
 	CONSOLE_SCREEN_BUFFER_INFO csbi;

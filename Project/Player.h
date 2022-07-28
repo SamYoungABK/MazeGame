@@ -1,6 +1,7 @@
 #pragma once
 #include "PlacableActor.h"
 #include <vector>
+#include "Item.h"
 
 class Key;
 
@@ -10,8 +11,15 @@ public:
 	int m_money = 0;
 	int m_health = 10;
 	int m_strength = 2;
+	int m_defense = 0;
 	int m_dexterity = 1;
 	int m_vitality = 10;
+	std::vector<Item> m_inventory = { Item(0), Item(1) };
+
+	Item m_headEquipped   = -1;
+	Item m_chestEquipped  = -1;
+	Item m_legsEquipped   = -1;
+	Item m_weaponEquipped = -1;
 
 	Player();
 
