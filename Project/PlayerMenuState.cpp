@@ -168,7 +168,7 @@ void PlayerMenuState::UseConsumable()
 		m_message = "Unable to consume this item.";
 		return;
 	}
-	// definitely a better way to do this with function pointers
+	// there's definitely a better way to do this with function pointers
 	if (m_selectedItem->GetName() == "Health Potion")
 	{
 		m_message = "Gained 2 health from consuming health potion!";

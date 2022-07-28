@@ -17,6 +17,7 @@
 #include "StateMachineExampleGame.h"
 #include "CustomLevelManager.h"
 #include "HealthPickup.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -214,7 +215,8 @@ void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 		{
 			HealthPickup* collidedHealth = dynamic_cast<HealthPickup*>(collidedActor);
 			assert(collidedHealth);
-			BroadcastMessage("Gained 2 health!");
+			BroadcastMessage("Picked up health potion!");
+			m_player.m_inventory.push_back(Item(0));
 			m_player.GainHealth(2);
 			collidedHealth->Remove();
 			m_player.SetPosition(newPlayerX, newPlayerY);
