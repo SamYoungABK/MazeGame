@@ -14,7 +14,7 @@ public:
 	int m_defense = 0;
 	int m_dexterity = 1;
 	int m_vitality = 10;
-	std::vector<Item> m_inventory = { Item(0), Item(1), Item(5) };
+	std::vector<Item> m_inventory = { Item(0), Item(1), Item(5), Item(6) };
 
 	Item m_headEquipped   = Item(2);
 	Item m_chestEquipped  = Item(3);

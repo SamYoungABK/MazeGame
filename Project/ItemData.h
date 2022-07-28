@@ -104,5 +104,17 @@ const s_ItemData itemInfo[10] =
 			0, //dexterity
 			0 //vitality
 		}
+	},
+	{
+		6, // item ID
+		"Crown of Health", // itemName
+		ItemType::Equipment, // itemType
+		ItemSlot::Head, //itemSlot
+		{ //statChange
+			0, //strength
+			0, //defense
+			0, //dexterity
+			10 //vitality
+		}
 	}
 };
