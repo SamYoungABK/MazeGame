@@ -1,5 +1,4 @@
 #include <iostream>
-#include "vld.h"
 #include "Game.h"
 #include "AudioManager.h"
 #include "CustomLevelManager.h"

@@ -44,9 +44,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SelectionMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameplayState.cpp">
       <Filter>Source Files\GameStates</Filter>
     </ClCompile>
@@ -116,9 +113,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectionMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameplayState.h">

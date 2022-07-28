@@ -173,7 +173,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMenuState.cpp" />
     <ClCompile Include="Project.cpp" />
-    <ClCompile Include="SelectionMenu.cpp" />
     <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="StateMachineExampleGame.cpp" />
     <ClCompile Include="WinState.cpp" />
@@ -202,7 +201,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerMenuState.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="SelectionMenu.h" />
     <ClInclude Include="SettingsState.h" />
     <ClInclude Include="StateMachineExampleGame.h" />
     <ClInclude Include="Utility.h" />

@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <iterator>
-#include "SelectionMenu.h"
 
 class CustomLevelManager
 {
