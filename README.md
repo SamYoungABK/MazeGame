@@ -10,7 +10,7 @@
   (Can be seen with the Bronze Sword and Crown of Health.)
   * Vitality controls the player's maximum health.
 * Health Potion pickup actor that can be placed in the overworld (denoted by H)
-..* These can be found in CustomLevel1.txt and CustomLevel2.txt
+  * These can be found in CustomLevel1.txt and CustomLevel2.txt
 * "Event log" on the HUD showing the last few events that occured
 (player taking damage, picking up items)
 
