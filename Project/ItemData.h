@@ -31,7 +31,7 @@ struct s_ItemData
 	s_StatChange statChange;
 };
 
-const s_ItemData itemInfo[2] =
+const s_ItemData itemInfo[10] =
 {
 	{
 		0, // item ID
@@ -51,10 +51,58 @@ const s_ItemData itemInfo[2] =
 		ItemType::Equipment, // itemType
 		ItemSlot::Weapon, //itemSlot
 		{ //statChange
-			2, //strength
+			3, //strength
 			0, //defense
 			0, //dexterity
 			0 //vitality
 		}
 	},
+	{
+		2, // item ID
+		"Leather Cowl", // itemName
+		ItemType::Equipment, // itemType
+		ItemSlot::Head, //itemSlot
+		{ //statChange
+			0, //strength
+			1, //defense
+			0, //dexterity
+			0 //vitality
+		}
+	},
+	{
+		3, // item ID
+		"Leather Body", // itemName
+		ItemType::Equipment, // itemType
+		ItemSlot::Head, //itemSlot
+		{ //statChange
+			0, //strength
+			1, //defense
+			0, //dexterity
+			0 //vitality
+		}
+	},
+	{
+		4, // item ID
+		"Leather Chaps", // itemName
+		ItemType::Equipment, // itemType
+		ItemSlot::Head, //itemSlot
+		{ //statChange
+			0, //strength
+			1, //defense
+			0, //dexterity
+			0 //vitality
+		}
+	},
+	{
+		5, // item ID
+		"Wooden Stick", // itemName
+		ItemType::Equipment, // itemType
+		ItemSlot::Weapon, //itemSlot
+		{ //statChange
+			1, //strength
+			0, //defense
+			0, //dexterity
+			0 //vitality
+		}
+	}
 };

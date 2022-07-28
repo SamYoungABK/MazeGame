@@ -18,6 +18,8 @@ public:
 		m_statChange(itemInfo[itemID].statChange) {};
 
 	std::string GetName() { return m_itemName; }
+	ItemType GetType() { return m_itemType; }
+	ItemSlot GetSlot() { return m_itemSlot; }
 	bool IsItemEquippable(ItemSlot slot)
 	{
 		if (m_itemType != ItemType::Equipment) return false;

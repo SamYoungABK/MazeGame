@@ -14,12 +14,12 @@ public:
 	int m_defense = 0;
 	int m_dexterity = 1;
 	int m_vitality = 10;
-	std::vector<Item> m_inventory = { Item(0), Item(1) };
+	std::vector<Item> m_inventory = { Item(0), Item(1), Item(5) };
 
-	Item m_headEquipped   = -1;
-	Item m_chestEquipped  = -1;
-	Item m_legsEquipped   = -1;
-	Item m_weaponEquipped = -1;
+	Item m_headEquipped   = Item(2);
+	Item m_chestEquipped  = Item(3);
+	Item m_legsEquipped   = Item(4);
+	Item m_weaponEquipped = Item(5);
 
 	Player();
 

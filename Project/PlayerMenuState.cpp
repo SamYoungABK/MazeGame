@@ -54,6 +54,11 @@ bool PlayerMenuState::Update(bool processInput)
 		{
 			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::ResumeSaved);
 		}
+		else if (input == kEnterKey)
+		{
+			if(m_selectedItem->GetType() == ItemType::Equipment) EquipItem();
+			if (m_selectedItem->GetType() == ItemType::Consumable) UseConsumable();
+		}
 	}
 	return shouldQuit;
 }
@@ -67,12 +72,12 @@ void PlayerMenuState::Draw()
 	cout << "          W/S - Move Cursor Up/Down" << endl;
 	cout << "        ENTER - Select" << endl;
 	cout << "            X - Return to Game" << endl << endl;
+
 	PrintMoneyAndHealth();
 	PrintStats(3, 12);
 	PrintEquipment(20, 12);
 	PrintItemList(60,3);
-	/*m_selectionMenu->PrintOptions();*/
-
+	PrintMessage(1, 18);
 }
 
 void PlayerMenuState::MoveConsoleCursor(int x, int y) {
@@ -110,13 +115,13 @@ void PlayerMenuState::PrintStats(int x, int y)
 void PlayerMenuState::PrintEquipment(int x, int y)
 {
 	MoveConsoleCursor(x, y);
-	cout << "Head: " << "WIP";
+	cout << "Head: " << m_pPlayer->m_headEquipped.GetName();
 	MoveConsoleCursor(x, y + 1);
-	cout << "Chest: " << "WIP";
+	cout << "Chest: " << m_pPlayer->m_chestEquipped.GetName();
 	MoveConsoleCursor(x, y + 2);
-	cout << "Legs: " << "WIP";
+	cout << "Legs: " << m_pPlayer->m_legsEquipped.GetName();
 	MoveConsoleCursor(x, y + 3);
-	cout << "Weapon: " << "WIP";
+	cout << "Weapon: " << m_pPlayer->m_weaponEquipped.GetName();
 }
 
 void PlayerMenuState::PrintItemList(int x, int y)
@@ -124,7 +129,7 @@ void PlayerMenuState::PrintItemList(int x, int y)
 	MoveConsoleCursor(x, y);
 	for (int i = -1; i <= 25; ++i) cout << Level::WAL;
 	MoveConsoleCursor(x, ++y);
-	cout << Level::WAL << "Inventory";
+	cout << Level::WAL << "  Inventory";
 	MoveConsoleCursor(x+26, y);
 	cout << Level::WAL;
 	MoveConsoleCursor(x, ++y);
@@ -154,4 +159,62 @@ void PlayerMenuState::MoveCursorDown()
 void PlayerMenuState::MoveCursorUp()
 {
 	if (m_selectedItem > m_pPlayer->m_inventory.begin()) m_selectedItem--;
+}
+
+void PlayerMenuState::UseConsumable()
+{
+	if (m_selectedItem->GetType() != ItemType::Consumable)
+	{
+		m_message = "Unable to consume this item.";
+		return;
+	}
+	// definitely a better way to do this with function pointers
+	if (m_selectedItem->GetName() == "Health Potion")
+	{
+		m_message = "Gained 2 health from consuming health potion!";
+		m_pPlayer->GainHealth(2);
+	}
+
+	m_pPlayer->m_inventory.erase(m_selectedItem);
+	m_selectedItem = m_pPlayer->m_inventory.begin();
+}
+
+void PlayerMenuState::EquipItem()
+{
+	if (m_selectedItem->GetType() != ItemType::Equipment)
+	{
+		m_message = "Unable to equip this item.";
+		return;
+	}
+
+	Item tmp = Item(0);
+	switch(m_selectedItem->GetSlot()) {
+	case ItemSlot::Head:
+		tmp = m_pPlayer->m_headEquipped;
+		m_pPlayer->m_headEquipped = *m_selectedItem;
+		break;
+	case ItemSlot::Chest:
+		tmp = m_pPlayer->m_legsEquipped;
+		m_pPlayer->m_legsEquipped = *m_selectedItem;
+		break;
+	case ItemSlot::Legs:
+		tmp = m_pPlayer->m_legsEquipped;
+		m_pPlayer->m_legsEquipped = *m_selectedItem;
+		break;
+	case ItemSlot::Weapon:
+		tmp = m_pPlayer->m_weaponEquipped;
+		m_pPlayer->m_weaponEquipped = *m_selectedItem;
+		break;
+	}
+
+	
+	m_pPlayer->m_inventory.erase(m_selectedItem);
+	m_pPlayer->m_inventory.push_back(tmp);
+	m_selectedItem = m_pPlayer->m_inventory.begin();
+}
+
+void PlayerMenuState::PrintMessage(int x, int y)
+{
+	MoveConsoleCursor(x, y);
+	std::cout << m_message;
 }
