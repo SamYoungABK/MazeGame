@@ -35,7 +35,17 @@ public:
 
 	int GetHealth() { return m_health; }
 	void TakeDamage(int amount) { m_health -= amount;}
-	void GainHealth(int amount) { m_health += amount;}
+	void GainHealth(int amount)
+	{
+		m_health += amount;
+		if (m_health > GetTotalVitality())
+			m_health = GetTotalVitality();
+	}
+
+	int GetTotalStrength();
+	int GetTotalDefense();
+	int GetTotalDexterity();
+	int GetTotalVitality();
 
 	virtual ActorType GetType() override { return ActorType::Player; }
 	virtual void Draw() override;

@@ -55,3 +55,47 @@ void Player::Draw()
 {
 	cout << "@";
 }
+
+int Player::GetTotalStrength()
+{
+	int result = m_strength;
+	result += m_headEquipped.GetStrength();
+	result += m_chestEquipped.GetStrength();
+	result += m_legsEquipped.GetStrength();
+	result += m_weaponEquipped.GetStrength();
+
+	return result;
+}
+
+int Player::GetTotalDefense()
+{
+	int result = m_defense;
+	result += m_headEquipped.GetDefense();
+	result += m_chestEquipped.GetDefense();
+	result += m_legsEquipped.GetDefense();
+	result += m_weaponEquipped.GetDefense();
+
+	return result;
+}
+
+int Player::GetTotalDexterity()
+{
+	int result = m_dexterity;
+	result += m_headEquipped.GetDexterity();
+	result += m_chestEquipped.GetDexterity();
+	result += m_legsEquipped.GetDexterity();
+	result += m_weaponEquipped.GetDexterity();
+
+	return result;
+}
+
+int Player::GetTotalVitality()
+{
+	int result = m_vitality;
+	result += m_headEquipped.GetVitality();
+	result += m_chestEquipped.GetVitality();
+	result += m_legsEquipped.GetVitality();
+	result += m_weaponEquipped.GetVitality();
+
+	return result;
+}

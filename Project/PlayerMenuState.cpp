@@ -57,7 +57,7 @@ bool PlayerMenuState::Update(bool processInput)
 		else if (input == kEnterKey)
 		{
 			if(m_selectedItem->GetType() == ItemType::Equipment) EquipItem();
-			if (m_selectedItem->GetType() == ItemType::Consumable) UseConsumable();
+			else if (m_selectedItem->GetType() == ItemType::Consumable) UseConsumable();
 		}
 	}
 	return shouldQuit;
@@ -103,13 +103,13 @@ void PlayerMenuState::PrintMoneyAndHealth()
 void PlayerMenuState::PrintStats(int x, int y)
 {
 	MoveConsoleCursor(x, y);
-	cout << "Strength : " << m_pPlayer->m_strength;
+	cout << "Strength : " << m_pPlayer->GetTotalStrength();
 	MoveConsoleCursor(x, y + 1);
-	cout << "Defense : " << m_pPlayer->m_defense;
+	cout << "Defense : " << m_pPlayer->GetTotalDefense();
 	MoveConsoleCursor(x, y + 2);
-	cout << "Dexterity: " << m_pPlayer->m_dexterity;
+	cout << "Dexterity: " << m_pPlayer->GetTotalDexterity();
 	MoveConsoleCursor(x, y + 3);
-	cout << "Vitality : " << m_pPlayer->m_vitality;
+	cout << "Vitality : " << m_pPlayer->GetTotalVitality();
 }
 
 void PlayerMenuState::PrintEquipment(int x, int y)

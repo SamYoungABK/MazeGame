@@ -20,13 +20,9 @@ public:
 	std::string GetName() { return m_itemName; }
 	ItemType GetType() { return m_itemType; }
 	ItemSlot GetSlot() { return m_itemSlot; }
-	bool IsItemEquippable(ItemSlot slot)
-	{
-		if (m_itemType != ItemType::Equipment) return false;
-		if (m_itemSlot != slot) return false;
-		
-		return true;
-	}
-	/*bool operator==(Item rhs);*/
+	int GetStrength() { return m_statChange.strength;  }
+	int GetDefense() { return m_statChange.defense; }
+	int GetDexterity() { return m_statChange.dexterity; }
+	int GetVitality() { return m_statChange.vitality; }
 };
 
