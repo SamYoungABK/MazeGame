@@ -59,7 +59,7 @@ const s_ItemData itemInfo[10] =
 	},
 	{
 		2, // item ID
-		"Leather Cowl", // itemName
+		"Leather Hat", // itemName
 		ItemType::Equipment, // itemType
 		ItemSlot::Head, //itemSlot
 		{ //statChange
@@ -107,7 +107,7 @@ const s_ItemData itemInfo[10] =
 	},
 	{
 		6, // item ID
-		"Crown of Health", // itemName
+		"Hat of Health", // itemName
 		ItemType::Equipment, // itemType
 		ItemSlot::Head, //itemSlot
 		{ //statChange
