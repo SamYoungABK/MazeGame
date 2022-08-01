@@ -311,7 +311,7 @@ void GameplayState::DrawHUD(const HANDLE& console)
 		<< " x-open menu " << Level::WAL;
 
 	cout << " $:" << m_player.GetMoney() << " " << Level::WAL;
-	cout << " hp:" << m_player.GetHealth() << "/" << m_player.m_vitality;
+	cout << " hp:" << m_player.GetHealth() << "/" << m_player.GetTotalVitality();
 
 	// RightSide border
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
