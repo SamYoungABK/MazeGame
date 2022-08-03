@@ -2,7 +2,10 @@
 #include <string>
 #include <vector>
 
+using std::vector; using std::pair;
+
 class PlacableActor;
+class Player;
 
 class Level
 {
@@ -18,7 +21,7 @@ public:
 
 	bool Load(std::string levelName, int* playerX, int* playerY);
 	void Draw();
-	PlacableActor* UpdateActors(int x, int y);
+	vector<pair<PlacableActor*, PlacableActor*>> UpdateActors(int x, int y, Player* player);
 
 	bool IsSpace(int x, int y);
 	bool IsWall(int x, int y);

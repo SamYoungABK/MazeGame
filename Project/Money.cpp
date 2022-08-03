@@ -12,3 +12,13 @@ void Money::Draw()
 {
 	std::cout << "$";
 }
+
+void Money::HandleCollision(PlacableActor* collidedActor)
+{
+	switch (collidedActor->GetType())
+	{
+	case ActorType::Player:
+		Remove();
+		break;
+	}
+}

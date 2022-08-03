@@ -28,14 +28,15 @@ class GameplayState : public GameState
 	std::vector<std::string> m_broadcastMessages;
 
 public:
+	void OpenPlayerMenu();
 	GameplayState(StateMachineExampleGame* pOwner);
 	~GameplayState();
 	void HandleLevelComplete();
 	bool HandleInput(int& newPlayerX, int& newPlayerY);
-
 	virtual void Enter() override;
 	virtual bool Update(bool processInput = true) override;
 	virtual void Draw() override;
+	
 
 private:
 	void HandleCollision(int newPlayerX, int newPlayerY);
@@ -43,4 +44,6 @@ private:
 	void DrawHUD(const HANDLE& console);
 	void DrawHUDBroadcasts(const HANDLE& console, CONSOLE_SCREEN_BUFFER_INFO csbi);
 	void BroadcastMessage(std::string message);
+	bool ShouldPlayerLose();
+	void HandleLoss();
 };

@@ -28,6 +28,12 @@ constexpr int kUpArrow = 72;
 constexpr int kDownArrow = 80;
 constexpr int kEscapeKey = 27;
 
+void GameplayState::OpenPlayerMenu()
+{
+	m_pOwner->m_savedPlayerPtr = &m_player;
+	m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
+}
+
 GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 	: m_pOwner(pOwner)
 	, m_beatLevel(false)
@@ -103,6 +109,11 @@ void GameplayState::HandleLevelComplete()
 	}
 }
 
+void GameplayState::HandleLoss()
+{
+	m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Lose);
+}
+
 bool GameplayState::HandleInput(int& newPlayerX, int& newPlayerY)
 {
 	int input = _getch();
@@ -136,8 +147,7 @@ bool GameplayState::HandleInput(int& newPlayerX, int& newPlayerY)
 	}
 	else if ((char)input == 'X' || (char)input == 'x')
 	{
-		m_pOwner->m_savedPlayerPtr = &m_player;
-		m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
+		OpenPlayerMenu();
 	}
 	else if (input == kEscapeKey)
 	{
@@ -159,119 +169,36 @@ bool GameplayState::Update(bool processInput)
 	{
 		int newPlayerX = m_player.GetXPosition();
 		int newPlayerY = m_player.GetYPosition();
-		bool positionChange = HandleInput(newPlayerX, newPlayerY);
-		if (positionChange) HandleCollision(newPlayerX, newPlayerY);
+
+		HandleInput(newPlayerX, newPlayerY);
+		HandleCollision(newPlayerX, newPlayerY);
+		m_player.SetPosition(newPlayerX, newPlayerY);
 	}
+
+	if (ShouldPlayerLose()) HandleLoss();
 
 
 	return false;
 }
 
-void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
+bool GameplayState::ShouldPlayerLose()
 {
-	PlacableActor* collidedActor = m_pLevel->UpdateActors(newPlayerX, newPlayerY);
-	if (collidedActor != nullptr && collidedActor->IsActive())
-	{
-		switch (collidedActor->GetType())
-		{
-		case ActorType::Enemy:
-		{
-			Enemy* collidedEnemy = dynamic_cast<Enemy*>(collidedActor);
-			assert(collidedEnemy);
-			AudioManager::GetInstance()->PlayLoseLivesSound();
-			m_player.SetPosition(newPlayerX, newPlayerY);
-
-			m_player.TakeDamage(2);
-			BroadcastMessage("Took 2 damage!!");
-			if (m_player.GetHealth() < 0)
-			{
-				AudioManager::GetInstance()->PlayLoseSound();
-				m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Lose);
-			}
-			break;
-		}
-		case ActorType::Money:
-		{
-			Money* collidedMoney = dynamic_cast<Money*>(collidedActor);
-			assert(collidedMoney);
-			AudioManager::GetInstance()->PlayMoneySound();
-			collidedMoney->Remove();
-			m_player.AddMoney(collidedMoney->GetWorth());
-			m_player.SetPosition(newPlayerX, newPlayerY);
-			break;
-		}
-		case ActorType::Key:
-		{
-			Key* collidedKey = dynamic_cast<Key*>(collidedActor);
-			assert(collidedKey);
-			if (!m_player.HasKey())
-			{
-				m_player.PickupKey(collidedKey);
-				collidedKey->Remove();
-				m_player.SetPosition(newPlayerX, newPlayerY);
-				AudioManager::GetInstance()->PlayKeyPickupSound();
-			}
-			break;
-		}
-		case ActorType::Health:
-		{
-			HealthPickup* collidedHealth = dynamic_cast<HealthPickup*>(collidedActor);
-			assert(collidedHealth);
-			BroadcastMessage("Picked up health potion!");
-			m_player.m_inventory.push_back(Item(0));
-			m_player.GainHealth(2);
-			collidedHealth->Remove();
-			m_player.SetPosition(newPlayerX, newPlayerY);
-			break;
-		}
-		case ActorType::Door:
-		{
-			Door* collidedDoor = dynamic_cast<Door*>(collidedActor);
-			assert(collidedDoor);
-			if (!collidedDoor->IsOpen())
-			{
-				if (m_player.HasKey(collidedDoor->GetColor()))
-				{
-					collidedDoor->Open();
-					collidedDoor->Remove();
-					m_player.UseKey();
-					m_player.SetPosition(newPlayerX, newPlayerY);
-					AudioManager::GetInstance()->PlayDoorOpenSound();
-				}
-				else
-				{
-					AudioManager::GetInstance()->PlayDoorClosedSound();
-				}
-			}
-			else
-			{
-				m_player.SetPosition(newPlayerX, newPlayerY);
-			}
-			break;
-		}
-		case ActorType::Goal:
-		{
-			Goal* collidedGoal = dynamic_cast<Goal*>(collidedActor);
-			assert(collidedGoal);
-			collidedGoal->Remove();
-			m_player.SetPosition(newPlayerX, newPlayerY);
-			m_beatLevel = true;
-			break;
-		}
-		default:
-			break;
-		}
-	}
-	else if (m_pLevel->IsSpace(newPlayerX, newPlayerY)) // no collision
-	{
-		m_player.SetPosition(newPlayerX, newPlayerY);
-	}
-	else if (m_pLevel->IsWall(newPlayerX, newPlayerY))
-	{
-		// wall collision, do nothing
-	}
+	return m_player.GetHealth() < 0;
 }
 
+void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
+{
+	typedef std::pair<PlacableActor*, PlacableActor*> CollisionPair;
+	std::vector<CollisionPair> collisionList = m_pLevel->UpdateActors(newPlayerX, newPlayerY, &m_player);
+
+	for (CollisionPair collision : collisionList)
+	{
+		if (collision.first->GetType() == ActorType::Player && collision.second->GetType() == ActorType::Goal)
+			m_beatLevel = true;
+		collision.first->HandleCollision(collision.second);
+		collision.second->HandleCollision(collision.first);
+	}
+}
 void GameplayState::Draw()
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);

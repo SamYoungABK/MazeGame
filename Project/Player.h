@@ -34,7 +34,7 @@ public:
 	int GetMoney() { return m_money; }
 
 	int GetHealth() { return m_health; }
-	void TakeDamage(int amount) { m_health -= amount;}
+	void TakeDamage(int amount);
 	void GainHealth(int amount)
 	{
 		m_health += amount;
@@ -48,7 +48,9 @@ public:
 	int GetTotalVitality();
 
 	virtual ActorType GetType() override { return ActorType::Player; }
+	virtual void Update() override;
 	virtual void Draw() override;
+	virtual void HandleCollision(PlacableActor* collidedActor) override;
 
 private:
 	Key* m_pCurrentKey;

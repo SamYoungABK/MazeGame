@@ -25,6 +25,8 @@ enum class ActorType
 
 class PlacableActor
 {
+	bool m_skipNextPosUpdate = false;
+
 public:
 	PlacableActor(int x, int y, ActorColor color = ActorColor::Regular);
 	virtual ~PlacableActor();
@@ -34,6 +36,7 @@ public:
 	int* GetXPositionPointer();
 	int* GetYPositionPointer();
 	void SetPosition(int x, int y);
+	void SkipNextPositionUpdate() { m_skipNextPosUpdate = true; };
 
 	ActorColor GetColor() { return m_color; }
 
@@ -47,6 +50,7 @@ public:
 	{
 
 	}
+	virtual void HandleCollision(PlacableActor* collidedActor) {};
 
 protected:
 	Point* m_pPosition;

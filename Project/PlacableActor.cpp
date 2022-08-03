@@ -36,6 +36,11 @@ int* PlacableActor::GetYPositionPointer()
 
 void PlacableActor::SetPosition(int x, int y)
 {
+	if (m_skipNextPosUpdate)
+	{
+		m_skipNextPosUpdate = false;
+		return;
+	}
 	m_pPosition->x = x;
 	m_pPosition->y = y;
 }

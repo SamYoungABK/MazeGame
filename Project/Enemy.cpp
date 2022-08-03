@@ -44,6 +44,11 @@ void Enemy::Update()
 	this->SetPosition(m_pPosition->x + m_directionX, m_pPosition->y + m_directionY);
 }
 
+void Enemy::HandleCollision(PlacableActor *collidedActor)
+{
+	
+}
+
 void Enemy::UpdateDirection(int& current, int& direction, int& movement)
 {
 	current += direction;

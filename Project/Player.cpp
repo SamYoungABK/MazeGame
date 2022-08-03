@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Key.h"
 #include "AudioManager.h"
+#include "Money.h"
+#include "Door.h"
+#include "Goal.h"
 
 using namespace std;
 
@@ -15,6 +18,17 @@ Player::Player()
 	, m_health(kStartingNumberOfHealth)
 {
 
+}
+
+void Player::Update()
+{
+
+}
+
+void Player::TakeDamage(int amount)
+{
+	m_health -= amount;
+	AudioManager::GetInstance()->PlayLoseLivesSound();
 }
 
 bool Player::HasKey()
@@ -54,6 +68,44 @@ void Player::DropKey()
 void Player::Draw()
 {
 	cout << "@";
+}
+
+void Player::HandleCollision(PlacableActor* collidedActor)
+{
+	switch (collidedActor->GetType())
+	{
+	case ActorType::Enemy:
+	{
+		TakeDamage(2);
+		break;
+	}
+	case ActorType::Money:
+	{
+		AddMoney(dynamic_cast<Money*>(collidedActor)->GetWorth());
+		break;
+	}
+	case ActorType::Door:
+	{
+		Door* collidedDoor = dynamic_cast<Door*>(collidedActor);
+		if ((HasKey(collidedDoor->GetColor()) || collidedDoor->IsOpen()))
+		{
+			collidedActor->Remove();
+			collidedDoor->Open();
+		}
+		else
+		{
+			SkipNextPositionUpdate();
+		}
+		break;
+	}
+	case ActorType::Key:
+	{
+		PickupKey(dynamic_cast<Key*>(collidedActor));
+		AudioManager::GetInstance()->PlayKeyPickupSound();
+		collidedActor->Remove();
+		break;
+	}
+	}
 }
 
 int Player::GetTotalStrength()
