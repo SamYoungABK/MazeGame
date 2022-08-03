@@ -78,89 +78,91 @@ void GameplayState::Enter()
 	Load();
 }
 
-bool GameplayState::Update(bool processInput)
+void GameplayState::HandleLevelComplete()
 {
-	if (processInput && !m_beatLevel)
+	++m_skipFrameCount;
+	if (m_skipFrameCount > kFramesToSkip)
 	{
-		int input = _getch();
-		int arrowInput = 0;
-		int newPlayerX = m_player.GetXPosition();
-		int newPlayerY = m_player.GetYPosition();
+		m_beatLevel = false;
+		m_skipFrameCount = 0;
+		++m_currentLevel;
+		if (m_currentLevel == m_LevelNames.size())
+		{
+			Utility::WriteHighScore(m_player.GetMoney());
 
-		// One of the arrow keys were pressed
-		if (input == kArrowInput)
-		{
-			arrowInput = _getch();
-		}
+			AudioManager::GetInstance()->PlayWinSound();
 
-		if ((input == kArrowInput && arrowInput == kLeftArrow) ||
-			(char)input == 'A' || (char)input == 'a')
-		{
-			newPlayerX--;
-		}
-		else if ((input == kArrowInput && arrowInput == kRightArrow) ||
-			(char)input == 'D' || (char)input == 'd')
-		{
-			newPlayerX++;
-		}
-		else if ((input == kArrowInput && arrowInput == kUpArrow) ||
-			(char)input == 'W' || (char)input == 'w')
-		{
-			newPlayerY--;
-		}
-		else if ((input == kArrowInput && arrowInput == kDownArrow) ||
-			(char)input == 'S' || (char)input == 's')
-		{
-			newPlayerY++;
-		}
-		else if ((char)input == 'X' || (char)input == 'x')
-		{
-			m_pOwner->m_savedPlayerPtr = &m_player;
-			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
-		}
-		else if (input == kEscapeKey)
-		{
-			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::MainMenu);
-		}
-		else if ((char)input == 'Z' || (char)input == 'z')
-		{
-			m_player.DropKey();
-		}
-
-		// If position never changed
-		if (newPlayerX == m_player.GetXPosition() && newPlayerY == m_player.GetYPosition())
-		{
-			//return false;
+			m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Win);
 		}
 		else
 		{
-			HandleCollision(newPlayerX, newPlayerY);
+			// On to the next level
+			Load();
 		}
+
 	}
-	if (m_beatLevel)
+}
+
+bool GameplayState::HandleInput(int& newPlayerX, int& newPlayerY)
+{
+	int input = _getch();
+	int arrowInput = 0;
+
+	// One of the arrow keys were pressed
+	if (input == kArrowInput)
 	{
-		++m_skipFrameCount;
-		if (m_skipFrameCount > kFramesToSkip)
-		{
-			m_beatLevel = false;
-			m_skipFrameCount = 0;
-			++m_currentLevel;
-			if (m_currentLevel == m_LevelNames.size())
-			{
-				Utility::WriteHighScore(m_player.GetMoney());
-
-				AudioManager::GetInstance()->PlayWinSound();
-
-				m_pOwner->LoadScene(StateMachineExampleGame::SceneName::Win);
-			}
-			else
-			{
-				// On to the next level
-				Load();
-			}
-
-		}
+		arrowInput = _getch();
 	}
+
+	if ((input == kArrowInput && arrowInput == kLeftArrow) ||
+		(char)input == 'A' || (char)input == 'a')
+	{
+		newPlayerX--;
+	}
+	else if ((input == kArrowInput && arrowInput == kRightArrow) ||
+		(char)input == 'D' || (char)input == 'd')
+	{
+		newPlayerX++;
+	}
+	else if ((input == kArrowInput && arrowInput == kUpArrow) ||
+		(char)input == 'W' || (char)input == 'w')
+	{
+		newPlayerY--;
+	}
+	else if ((input == kArrowInput && arrowInput == kDownArrow) ||
+		(char)input == 'S' || (char)input == 's')
+	{
+		newPlayerY++;
+	}
+	else if ((char)input == 'X' || (char)input == 'x')
+	{
+		m_pOwner->m_savedPlayerPtr = &m_player;
+		m_pOwner->LoadScene(StateMachineExampleGame::SceneName::PlayerMenu);
+	}
+	else if (input == kEscapeKey)
+	{
+		m_pOwner->LoadScene(StateMachineExampleGame::SceneName::MainMenu);
+	}
+	else if ((char)input == 'Z' || (char)input == 'z')
+	{
+		m_player.DropKey();
+	}
+
+	return !(newPlayerX == m_player.GetXPosition() && newPlayerY == m_player.GetYPosition());
+}
+
+bool GameplayState::Update(bool processInput)
+{
+	if (m_beatLevel) HandleLevelComplete();
+
+	if (processInput)
+	{
+		int newPlayerX = m_player.GetXPosition();
+		int newPlayerY = m_player.GetYPosition();
+		bool positionChange = HandleInput(newPlayerX, newPlayerY);
+		if (positionChange) HandleCollision(newPlayerX, newPlayerY);
+	}
+
 
 	return false;
 }

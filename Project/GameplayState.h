@@ -30,6 +30,8 @@ class GameplayState : public GameState
 public:
 	GameplayState(StateMachineExampleGame* pOwner);
 	~GameplayState();
+	void HandleLevelComplete();
+	bool HandleInput(int& newPlayerX, int& newPlayerY);
 
 	virtual void Enter() override;
 	virtual bool Update(bool processInput = true) override;
