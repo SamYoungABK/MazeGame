@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include "Enemy.h"
 #include "Key.h"
@@ -116,7 +117,11 @@ void GameplayState::HandleLoss()
 
 bool GameplayState::HandleInput(int& newPlayerX, int& newPlayerY)
 {
-	int input = _getch();
+	if (m_inputThread == nullptr)
+	{
+		m_inputThread = new std::thread(&GameplayState::getInput, this);
+	}
+	int input = m_input;
 	int arrowInput = 0;
 
 	// One of the arrow keys were pressed
@@ -220,6 +225,7 @@ void GameplayState::Draw()
 	SetConsoleCursorPosition(console, currentCursorPosition);
 
 	DrawHUD(console);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
 }
 
 void GameplayState::DrawHUD(const HANDLE& console)

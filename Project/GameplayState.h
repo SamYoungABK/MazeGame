@@ -6,13 +6,25 @@
 #include <windows.h>
 #include <vector>
 #include <string>
+#include <thread>
+#include <conio.h>
 
 class StateMachineExampleGame;
 
 class GameplayState : public GameState
 {
 	StateMachineExampleGame* m_pOwner;
-	
+
+	int m_input = 0;
+
+	void getInput() {
+		m_input = 0;
+		m_input = _getch();
+		m_inputThread = nullptr;
+	}
+
+	std::thread *m_inputThread;
+
 	Player m_player;
 	Level* m_pLevel;
 
@@ -36,7 +48,7 @@ public:
 	virtual void Enter() override;
 	virtual bool Update(bool processInput = true) override;
 	virtual void Draw() override;
-	
+
 
 private:
 	void HandleCollision(int newPlayerX, int newPlayerY);
