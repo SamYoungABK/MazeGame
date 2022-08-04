@@ -41,6 +41,7 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 	, m_skipFrameCount(0)
 	, m_currentLevel(0)
 	, m_pLevel(nullptr)
+	, m_inputThread(nullptr)
 {
 	if (CustomLevelManager::GetInstance()->m_loadCustomLevel == true)
 	{
@@ -55,7 +56,7 @@ GameplayState::GameplayState(StateMachineExampleGame* pOwner)
 
 GameplayState::~GameplayState()
 {
-
+	CustomLevelManager::GetInstance()->m_loadCustomLevel = false;
 	delete m_pLevel;
 	m_pLevel = nullptr;
 }
