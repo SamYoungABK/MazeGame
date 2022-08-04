@@ -81,7 +81,9 @@ void Player::HandleCollision(PlacableActor* collidedActor)
 	}
 	case ActorType::Money:
 	{
-		AddMoney(dynamic_cast<Money*>(collidedActor)->GetWorth());
+		Money* collidedMoney = dynamic_cast<Money*>(collidedActor);
+		collidedMoney->Remove();
+		AddMoney(collidedMoney->GetWorth());
 		break;
 	}
 	case ActorType::Door:
@@ -100,9 +102,10 @@ void Player::HandleCollision(PlacableActor* collidedActor)
 	}
 	case ActorType::Key:
 	{
-		PickupKey(dynamic_cast<Key*>(collidedActor));
+		Key* collidedKey = dynamic_cast<Key*>(collidedActor);
+		collidedKey->Remove();
+		PickupKey(collidedKey);
 		AudioManager::GetInstance()->PlayKeyPickupSound();
-		collidedActor->Remove();
 		break;
 	}
 	}
