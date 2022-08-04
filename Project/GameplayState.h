@@ -18,8 +18,14 @@ class GameplayState : public GameState
 	int m_input = 0;
 
 	void getInput() {
-		m_input = 0;
-		m_input = _getch();
+		while (true)
+		{
+			if (_kbhit())
+				m_input = _getch();
+			else
+				m_input = 0;
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 60));
+		}
 		m_inputThread = nullptr;
 	}
 

@@ -128,7 +128,7 @@ bool GameplayState::HandleInput(int& newPlayerX, int& newPlayerY)
 	// One of the arrow keys were pressed
 	if (input == kArrowInput)
 	{
-		arrowInput = _getch();
+		//arrowInput = _getch();
 	}
 
 	if ((input == kArrowInput && arrowInput == kLeftArrow) ||
