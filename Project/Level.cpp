@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <iostream>
 #include <fstream>
+#include <set>
+#include <vector>
 #include "Level.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -204,10 +206,14 @@ int Level::GetIndexFromCoordinates(int x, int y)
 	return x + y * m_width;
 }
 
+
 // Updates all actors and returns a list of pairs of colliding actors
-vector<pair<PlacableActor*, PlacableActor*>> Level::UpdateActors(int x, int y, Player* player)
+// to avoid duplicate pairs from occuring, they're added to a set
+// and then the values in the set are copied to the vector to be returned
+vector<CollisionPair> Level::UpdateActors(int x, int y, Player* player)
 {
-	vector<pair<PlacableActor*, PlacableActor*>> collisionList;
+	set<CollisionPair> collisionSet;
+	vector<CollisionPair> collisionList;
 
 	for (auto actor = m_pActors.begin(); actor != m_pActors.end(); ++actor) (*actor)->Update();
 
@@ -215,16 +221,16 @@ vector<pair<PlacableActor*, PlacableActor*>> Level::UpdateActors(int x, int y, P
 
 	if (tileMovedOn == WAL) player->SkipNextPositionUpdate();
 
-	// the player isnt in the list of actors in the level for some reason??? so we do this
+	// check to see if the player's new location is overlapping any of the actors
 	for (auto actor = m_pActors.begin(); actor != m_pActors.end(); ++actor)
 	{
 		if (!(*actor)->IsActive()) continue;
-		if (x == (*actor)->GetXPosition() && y == (*actor)->GetYPosition())
-		{
-			collisionList.push_back(pair<PlacableActor*, PlacableActor*>(player, *actor));
-		}
+
+		if ((*actor)->IsOverlapping(x,y))
+			collisionSet.insert(CollisionPair(player, *actor));
 	}
 
+	// check to see if any of the other actors are overlapping each other.
 	for (auto actor1 = m_pActors.begin(); actor1 != m_pActors.end(); ++actor1)
 	{
 		for (auto actor2 = m_pActors.begin(); actor2 != m_pActors.end(); ++actor2)
@@ -232,13 +238,12 @@ vector<pair<PlacableActor*, PlacableActor*>> Level::UpdateActors(int x, int y, P
 			if (actor1 == actor2) continue;
 			if (!((*actor1)->IsActive() && (*actor2)->IsActive())) continue;
 
-			if ((*actor1)->GetXPosition() == (*actor2)->GetXPosition() &&
-				(*actor1)->GetYPosition() == (*actor2)->GetYPosition())
-			{
-				collisionList.push_back(pair<PlacableActor*, PlacableActor*>(*actor1,*actor2));
-			}
+			if ((*actor1)->IsOverlapping(*actor2))
+				collisionSet.insert(CollisionPair(*actor1,*actor2));
 		}
 	}
+
+	std::copy(collisionSet.begin(), collisionSet.end(), std::back_inserter(collisionList));
 
 	return collisionList;
 }

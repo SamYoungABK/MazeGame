@@ -193,7 +193,7 @@ bool GameplayState::ShouldPlayerLose()
 
 void GameplayState::HandleCollision(int newPlayerX, int newPlayerY)
 {
-	typedef std::pair<PlacableActor*, PlacableActor*> CollisionPair;
+	/*typedef std::pair<PlacableActor*, PlacableActor*> CollisionPair;*/
 	std::vector<CollisionPair> collisionList = m_pLevel->UpdateActors(newPlayerX, newPlayerY, &m_player);
 
 	for (CollisionPair collision : collisionList)
