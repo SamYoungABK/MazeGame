@@ -218,6 +218,7 @@ vector<pair<PlacableActor*, PlacableActor*>> Level::UpdateActors(int x, int y, P
 	// the player isnt in the list of actors in the level for some reason??? so we do this
 	for (auto actor = m_pActors.begin(); actor != m_pActors.end(); ++actor)
 	{
+		if (!(*actor)->IsActive()) continue;
 		if (x == (*actor)->GetXPosition() && y == (*actor)->GetYPosition())
 		{
 			collisionList.push_back(pair<PlacableActor*, PlacableActor*>(player, *actor));
@@ -229,6 +230,7 @@ vector<pair<PlacableActor*, PlacableActor*>> Level::UpdateActors(int x, int y, P
 		for (auto actor2 = m_pActors.begin(); actor2 != m_pActors.end(); ++actor2)
 		{
 			if (actor1 == actor2) continue;
+			if (!((*actor1)->IsActive() && (*actor2)->IsActive())) continue;
 
 			if ((*actor1)->GetXPosition() == (*actor2)->GetXPosition() &&
 				(*actor1)->GetYPosition() == (*actor2)->GetYPosition())
