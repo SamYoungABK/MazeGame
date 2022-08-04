@@ -6,6 +6,7 @@
 #include "Money.h"
 #include "Door.h"
 #include "Goal.h"
+#include "HealthPickup.h"
 
 using namespace std;
 
@@ -105,6 +106,13 @@ void Player::HandleCollision(PlacableActor* collidedActor)
 		Key* collidedKey = dynamic_cast<Key*>(collidedActor);
 		collidedKey->Remove();
 		PickupKey(collidedKey);
+		break;
+	}
+	case ActorType::Health:
+	{
+		HealthPickup* collidedHealth = dynamic_cast<HealthPickup*>(collidedActor);
+		m_inventory.push_back(1);
+		collidedHealth->Remove();
 		AudioManager::GetInstance()->PlayKeyPickupSound();
 		break;
 	}
