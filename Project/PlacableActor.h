@@ -38,6 +38,9 @@ public:
 	void SetPosition(int x, int y);
 	void SkipNextPositionUpdate() { m_skipNextPosUpdate = true; };
 
+	bool IsOverlapping(int x, int y) { return (GetXPosition() == x && GetYPosition() == y); }
+	bool IsOverlapping(PlacableActor* actor) { return (GetXPosition() == actor->GetXPosition() && GetYPosition() == actor->GetYPosition()); }
+
 	ActorColor GetColor() { return m_color; }
 
 	void Remove() { m_IsActive = false; }
