@@ -33,6 +33,12 @@
     <Filter Include="Header Files\StateMachines">
       <UniqueIdentifier>{60f93174-1a95-46af-b03b-296b580491cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{73f50ee3-c7a0-4836-9bdd-c521ed87dc52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer">
+      <UniqueIdentifier>{eaca7c67-4de2-43ff-bea5-22125a48f9ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Project.cpp">
@@ -102,6 +108,15 @@
       <Filter>Source Files\StateMachines</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,6 +200,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ItemData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,17 +19,17 @@ void Game::RunGameLoop()
 {
 	bool isGameOver = false;
 
-	while (!isGameOver)
-	{
+	//while (!isGameOver)
+	//{
 		// update with no input
-		Update(false);
+	/*Update(false);*/
 		// Draw
-		Draw();
-		// Update with input
-		isGameOver = Update();
-	}
-
 	Draw();
+		// Update with input
+	isGameOver = Update();
+	/*}
+
+	Draw();*/
 }
 
 void Game::Deinitialize()
